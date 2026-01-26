@@ -1,35 +1,33 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import AnimatedRoute from './components/AnimatedRoute'
+import {Link} from 'react-router-dom'
+import Login from './Pages/Login'
+import React from 'react'
 
+import {ProtectedAdminPage , ProtectedCoursesPage,ProtectedEmployeePage} from '../src/pages/ProtectedPages'
+import EmployeeForm from './forms/EmployeeForm'
 function App() {
   const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+       <nav>
+        <Link to="/">Home</Link> { " | "}
+        <Link to="/employees">Employee</Link>{ " | "}
+        <Link to="/courses">Courses</Link>{ " | "}
+        <Link to="/admin">Admin</Link>{ " | "}
+       </nav>
+       <AnimatedRoute/>
+            
+        <Login/>
+        <ProtectedEmployeePage/>
+        <ProtectedAdminPage/>
+        <ProtectedCoursesPage />
+        <div style={{padding:"40px"}}>
+          <EmployeeForm/>
+        </div>
+    
     </>
   )
 }
-
 export default App
