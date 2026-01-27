@@ -1,0 +1,136 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "title": "Skirt",
+      "price": 799,
+      "image": "/Images/Skirt.jpg"
+    },
+    {
+      "id": "2",
+      "title": "T-Shirt",
+      "price": 499,
+      "image": "/Images/Tshirt.jpg"
+    },
+    {
+      "id": "3",
+      "title": "Shirt",
+      "price": 799,
+      "image": "/Images/Shirt.jpg"
+    }
+  ],
+  "cart": [
+    {
+      "id": "1",
+      "productId": 2,
+      "title": "T-Shirt",
+      "price": 499,
+      "image": "/Images/Tshirt.jpg",
+      "quantity": 1
+    },
+    {
+      "id": "a1b2",
+      "productId": "2",
+      "title": "T-Shirt",
+      "price": 499,
+      "image": "/Images/Tshirt.jpg",
+      "quantity": 1
+    },
+    {
+      "id": "08d8",
+      "productId": "2",
+      "title": "T-Shirt",
+      "price": 499,
+      "image": "/Images/Tshirt.jpg",
+      "quantity": 1
+    },
+    {
+      "id": "7ffa",
+      "productId": "1",
+      "title": "Skirt",
+      "price": 799,
+      "image": "/Images/Skirt.jpg",
+      "quantity": 1
+    },
+    {
+      "id": "8147",
+      "productId": "3",
+      "title": "Shirt",
+      "price": 799,
+      "image": "/Images/Shirt.jpg",
+      "quantity": 1
+    },
+    {
+      "id": "9138",
+      "productId": "1",
+      "title": "Skirt",
+      "price": 799,
+      "image": "/Images/Skirt.jpg",
+      "quantity": 1
+    },
+    {
+      "id": "cf91",
+      "productId": "1",
+      "title": "Skirt",
+      "price": 799,
+      "image": "/Images/Skirt.jpg",
+      "quantity": 1
+    },
+    {
+      "id": "d339",
+      "productId": "2",
+      "title": "T-Shirt",
+      "price": 499,
+      "image": "/Images/Tshirt.jpg",
+      "quantity": 1
+    },
+    {
+      "id": "aa01",
+      "productId": "1",
+      "title": "Skirt",
+      "price": 799,
+      "image": "/Images/Skirt.jpg",
+      "quantity": 1
+    },
+    {
+      "id": "7df3",
+      "productId": "1",
+      "title": "Skirt",
+      "price": 799,
+      "image": "/Images/Skirt.jpg",
+      "quantity": 1
+    },
+    {
+      "id": "ab27",
+      "productId": "2",
+      "title": "T-Shirt",
+      "price": 499,
+      "image": "/Images/Tshirt.jpg",
+      "quantity": 1
+    },
+    {
+      "id": "0ee9",
+      "productId": "1",
+      "title": "Skirt",
+      "price": 799,
+      "image": "/Images/Skirt.jpg",
+      "quantity": 1
+    },
+    {
+      "id": "fcad",
+      "productId": "2",
+      "title": "T-Shirt",
+      "price": 499,
+      "image": "/Images/Tshirt.jpg",
+      "quantity": 1
+    },
+    {
+      "id": "b904",
+      "productId": "2",
+      "title": "T-Shirt",
+      "price": 499,
+      "image": "/Images/Tshirt.jpg",
+      "quantity": 1
+    }
+  ]
+}
