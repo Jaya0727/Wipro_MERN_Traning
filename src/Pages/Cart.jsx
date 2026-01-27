@@ -1,77 +1,103 @@
 import { useEffect, useState } from "react";
-import PageTransition from "../transitions/PageTransition";
+import cartStore from "../flux/stores/CartStore";
+import { CartActions } from "../flux/actions/CartActions";
+
 const Cart = () => {
   const [cart, setCart] = useState([]);
 
+  // Sync cart with Flux store
   useEffect(() => {
-    fetch("http://localhost:3001/cart")
-      .then(res => res.json())
-      .then(data => setCart(data));
+    const updateCart = () => {
+      setCart(cartStore.getCart());
+    };
+
+    updateCart();
+    cartStore.addChangeListener(updateCart);
+
+    return () => {
+      cartStore.removeChangeListener(updateCart);
+    };
   }, []);
 
-  const increaseQty = async (item) => {
-    await fetch(`http://localhost:3001/cart/${item.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ quantity: item.quantity + 1 })
-    });
-    reloadCart();
-  };
-
-  const decreaseQty = async (item) => {
-    if (item.quantity === 1) {
-      await fetch(`http://localhost:3001/cart/${item.id}`, {
-        method: "DELETE"
-      });
-    } else {
-      await fetch(`http://localhost:3001/cart/${item.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ quantity: item.quantity - 1 })
-      });
-    }
-    reloadCart();
-  };
-
-  const reloadCart = () => {
-    fetch("http://localhost:3001/cart")
-      .then(res => res.json())
-      .then(data => setCart(data));
-  };
-
+  // Total price
   const total = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
   return (
-    <PageTransition>
-    <div className="p-10">
-      <h1 className="text-3xl font-bold mb-6">Your Cart</h1>
+    <div className="p-6">
+      <h2 className="text-3xl font-bold mb-6">Your Cart</h2>
 
-      {cart.length === 0 && <p>Your cart is empty</p>}
+      {/* EMPTY CART */}
+      {cart.length === 0 && (
+        <p className="text-gray-600">Your cart is empty</p>
+      )}
 
-      {cart.map(item => (
-        <div key={item.id} className="flex justify-between items-center border p-4 mb-4">
+      {/* CART ITEMS */}
+      {cart.map((item) => (
+        <div
+          key={item.id}
+          className="flex flex-col sm: flex-row justify-between items-start sm:items-center border p-4 mb-4 rounded"
+        >
+          {/* LEFT */}
           <div className="flex items-center gap-4">
-            <img src={item.image} alt={item.title} className="w-20 h-20" />
+            <img
+              src={item.image}
+              alt={item.title}
+              className="w-16 h-16 sm:w-20 sm:h-20 object-cover"
+            />
+
             <div>
-              <h3>{item.title}</h3>
-              <p>₹ {item.price}</p>
+              <h3 className="font-semibold">{item.title}</h3>
+              <p className="text-gray-600">₹ {item.price}</p>
+
+              {/* QUANTITY CONTROLS */}
+              <div className="flex items-center gap-2 sm:gap-3 mt-2">
+                <button
+                  onClick={() => CartActions.decreaseQty(item.id)}
+                  className="px-3 py-1 border rounded"
+                >
+                  -
+                </button>
+
+                <span className="font-semibold">{item.quantity}</span>
+
+                <button
+                  onClick={() => CartActions.addToCart(item)}
+                  className="px-3 py-1 border rounded"
+                >
+                  +
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="flex gap-3">
-            <button onClick={() => decreaseQty(item)}>-</button>
-            <span>{item.quantity}</span>
-            <button onClick={() => increaseQty(item)}>+</button>
+          {/* RIGHT */}
+          <div className="text-right">
+            <p className="font-semibold">
+              ₹ {item.price * item.quantity}
+            </p>
+
+            <button
+              onClick={() => CartActions.removeFromCart(item.id)}
+              className="text-red-600 mt-2 hover:underline"
+            >
+              Remove
+            </button>
           </div>
         </div>
       ))}
 
-      <h2 className="text-2xl font-bold mt-6">Total: ₹ {total}</h2>
+      {/* TOTAL */}
+      {cart.length > 0 && (
+        <div className="text-right mt-6">
+          <h3 className="text-xl font-bold">
+            Total: ₹ {total}
+          </h3>
+        </div>
+      )}
     </div>
-    </PageTransition>
   );
 };
 

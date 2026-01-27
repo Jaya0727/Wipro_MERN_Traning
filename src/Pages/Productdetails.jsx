@@ -1,86 +1,63 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import PageTransition from "../transitions/PageTransition";
 import { AuthContext } from "../context/AuthContext";
+import { CartActions } from "../flux/actions/CartActions";
+
 const Productdetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const {user} = useContext(AuthContext);
-
+  const { user } = useContext(AuthContext);
   const [product, setProduct] = useState(null);
 
-  //  Fetch single product from backend
   useEffect(() => {
-    fetch(`http://localhost:3001/products/${id}`)
+    fetch(`http://localhost:4000/products/${id}`)
       .then(res => res.json())
       .then(data => setProduct(data));
   }, [id]);
 
-  //  ADD TO CART (BACKEND)
-  const addToCart = async (product) => {
-    if (!user){
-navigate("/login");
-return
+  const handleAddToCart = async () => {
+    if (!user) {
+      navigate("/login");
+      return;
     }
-    const res = await fetch("http://localhost:3001/cart");
-    const cart = await res.json();
 
-    const existing = cart.find(item => item.productId === product.id);
+    const cartItem = {
+      productId: product.id,
+      title: product.title,
+      price: product.price,
+      image: product.image
+    };
 
-    if (existing) {
-      await fetch(`http://localhost:3001/cart/${existing.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ quantity: existing.quantity + 1 })
-      });
-    } else {
-      await fetch("http://localhost:3001/cart", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          productId: product.id,
-          title: product.title,
-          price: product.price,
-          image: product.image,
-          quantity: 1
-        })
-      });
-    }
+    // backend
+    await fetch("http://localhost:4000/cart", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...cartItem, quantity: 1 })
+    });
+
+    // flux
+    CartActions.addToCart(cartItem);
+
+    navigate("/cart");
   };
 
   if (!product) return <h2>Loading...</h2>;
 
   return (
     <PageTransition>
-    <div className="p-10">
-      <img
-        src={product.image}
-        alt={product.title}
-        className="w-72 h-96 object-contain mx-auto"
-      />
+      <div className="p-10">
+        <img src={product.image} className="w-72 mx-auto" />
+        <h1 className="text-3xl font-bold">{product.title}</h1>
+        <p className="text-red-600 text-xl">₹ {product.price}</p>
 
-      <h1 className="text-3xl font-bold mt-6">{product.title}</h1>
-      <p className="text-xl text-red-600 mt-2">₹ {product.price}</p>
-
-      <div className="flex gap-4 mt-6">
         <button
-          onClick={() => addToCart(product)}
-          className="bg-blue-600 text-white px-6 py-2 rounded"
+          onClick={handleAddToCart}
+          className="bg-blue-600 text-white px-6 py-2 mt-4 rounded"
         >
           Add to Cart
         </button>
-
-        <button
-          onClick={async () => {
-            await addToCart(product);
-            navigate("/cart");
-          }}
-          className="bg-green-600 text-white px-6 py-2 rounded"
-        >
-          Buy Now
-        </button>
       </div>
-    </div>
     </PageTransition>
   );
 };

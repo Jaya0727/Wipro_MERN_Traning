@@ -1,5 +1,4 @@
 import { useState } from "react";
-<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
 
 const Mainpart = () => {
@@ -16,21 +15,6 @@ const Mainpart = () => {
       className="bg-gray-400 py-20 text-center"
       style={{ backgroundImage: "url('/Images/Banner.jpg')" }}
     >
-=======
-
-const Mainpart = () => {
-  const [isClicked, setIsClicked] = useState(false);
-
-  const handleClick = () => {
-    setIsClicked(!isClicked);
-  };
-
-  return (
-    <section className="bg-gray-400 py-20 text-center"
-      style={{
-    backgroundImage: "url('/Images/Banner.jpg')"
-  }}>
->>>>>>> f03efc8c054698558f1783fdd2236a615bc2173b
       <h2 className="text-4xl text-white font-bold mb-4">GET START</h2>
       <h1 className="text-5xl text-white font-extrabold mb-6">
         YOUR FAVORITE SHOPPING
@@ -48,8 +32,4 @@ const Mainpart = () => {
   );
 };
 
-<<<<<<< HEAD
 export default Mainpart;
-=======
-export default Mainpart;
->>>>>>> f03efc8c054698558f1783fdd2236a615bc2173b
